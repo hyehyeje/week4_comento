@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <style>
+    .todo-app {
+      width: 300px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .input-group {
+      display: flex;
+      margin-bottom: 10px;
+    }
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 8px 12px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    button:hover { /*이거 쓰면 사용자가 버튼 위에 마우스 올리면 색 변환됨!*/
+      background-color: #218838;
+    }
+
+    ul { /*unordered list*/
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li { /*list item*/
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      background-color: #f8f9fa;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    li button {
+      background-color: #dc3545;
+    }
+
+    li button:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-app">
+    <input type="text" id="new-task" placeholder="Add your Schedule" />
+    <button id="add-task-btn">add</button>
+    
+    <ul id="task-list"></ul>
+  </div>
+
+  <script>
+    document.getElementById('add-task-btn').addEventListener('click', function() {
+      const taskInput = document.getElementById('new-task').value;
+      if (taskInput) {
+        const taskList = document.getElementById('task-list');
+        const newTask = document.createElement('li');
+        newTask.textContent = taskInput;
+        
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'complete';
+        deleteButton.addEventListener('click', function() {
+          taskList.removeChild(newTask);
+        });
+        
+        newTask.appendChild(deleteButton);
+        taskList.appendChild(newTask);
+      
+        document.getElementById('new-task').value = '';
+      }
+    });
+  </script>
+</body>
+</html>
