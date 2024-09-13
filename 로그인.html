@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    .error {
+      color: red;
+      font-size: 12px;
+    }
+
+    .password-info {
+      font-size: 12px;
+      color: blue;
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Registration</h2>
+
+  <div class="form-group">
+    <label for="username">ID:</label>
+    <input type="text" id="username" placeholder="Please input a ID">
+    <p id="username-error" class="error"></p>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Please input a password">
+    <p class="password-info">*Password must contain at least one number and one letter.*</p>
+    <p id="password-error" class="error"></p>
+  </div>
+
+  <button id="register-btn">Registration</button>
+
+  <p id="success-message"></p>
+
+  <script>
+    /*사용자의 정보를 저장하는 배열*/
+    const users = [];
+
+    /*비번 규칙 정하기 : 숫자와 영문자 포함*/ 
+    function validatePassword(password) {
+      const hasNumber = /\d/;
+      const hasLetter = /[a-zA-Z]/;
+     
+      if (!hasNumber.test(password)) {
+        return "The password must contain a number.";
+      }
+      if (!hasLetter.test(password)) {
+        return "The password must contain a letter.";
+      }
+      return "";
+    }
+
+    /*아이디 중복 체크하기*/ 
+    function isUsernameTaken(username) {
+      return users.some(user => user.username === username);
+    }
+
+    document.getElementById('register-btn').addEventListener('click', function() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const usernameError = document.getElementById('username-error');
+      const passwordError = document.getElementById('password-error');
+      const successMessage = document.getElementById('success-message');
+
+      // 오류 메시지 초기화
+      usernameError.textContent = '';
+      passwordError.textContent = '';
+      successMessage.textContent = '';
+
+      /*아이디 중복 체크하기*/ 
+      if (isUsernameTaken(username)) {
+        usernameError.textContent = 'The username already exists.';
+        return;
+      }
+
+      /*비밀번호 요소 체크하기*/ 
+      const passwordValidationMessage = validatePassword(password);
+      if (passwordValidationMessage) {
+        passwordError.textContent = passwordValidationMessage;
+        return;
+      }
+
+      /*회원가입 성공했을 때*/ 
+      users.push({ username, password });
+      successMessage.textContent = 'COMPLETE!';
+
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+    });
+  </script>
+
+</body>
+</html>
